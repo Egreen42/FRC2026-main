@@ -12,6 +12,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import edu.wpi.first.cameraserver.CameraServer;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
 
 /**
  * The methods in this class are called automatically corresponding to each mode, as described in
@@ -26,13 +27,14 @@ public class Robot extends TimedRobot {
 
 
    //Motor and Controller Creation
-   SparkMax leftDriveMotor1 = new SparkMax(Constants.kLeftDriveMotor1, MotorType.kBrushless);
-   SparkMax leftDriveMotor2 = new SparkMax(Constants.kLeftDriveMotor2, MotorType.kBrushless);
-   SparkMax rightDriveMotor1 = new SparkMax(Constants.kRightDriveMotor1, MotorType.kBrushless);
-   SparkMax rightDriveMotor2 = new SparkMax(Constants.kRightDriveMotor2, MotorType.kBrushless);
+   SparkMax leftDriveMotor1 = new SparkMax(Constants.kLeftDriveMotor1, MotorType.kBrushed);
+   SparkMax leftDriveMotor2 = new SparkMax(Constants.kLeftDriveMotor2, MotorType.kBrushed);
+   SparkMax rightDriveMotor1 = new SparkMax(Constants.kRightDriveMotor1, MotorType.kBrushed);
+   SparkMax rightDriveMotor2 = new SparkMax(Constants.kRightDriveMotor2, MotorType.kBrushed);
 
    SparkMax intakeMotor = new SparkMax(Constants.kIntakeMotorPort, MotorType.kBrushless );
    SparkMax shooterMotor = new SparkMax(Constants.kShooterMotorPort, MotorType.kBrushless);
+   SparkMax diverterMotor = new SparkMax(Constants.kDiverterMotorPort, MotorType.kBrushless);
 
    XboxController driverController = new XboxController(Constants.kDriverControllerPort);
    XboxController manipController = new XboxController(Constants.kManipControllerPort);
@@ -69,11 +71,14 @@ public class Robot extends TimedRobot {
     //Intake
     if(manipController.getLeftTriggerAxis() > 0.5){
       intakeMotor.set(Constants.intakeSpeed);
+      diverterMotor.set(Constants.diverterSpeed);
     }else if(manipController.getLeftBumperButtonPressed()){
       intakeMotor.set(-Constants.intakeSpeed);
+      diverterMotor.set(-Constants.diverterSpeed);
     }
     else {
       intakeMotor.set(0);
+      diverterMotor.set(0);
 
     }
 
