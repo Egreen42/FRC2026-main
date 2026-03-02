@@ -1,0 +1,29 @@
+
+
+Create files for swerve modules
+    Get frame dimesions
+    Motor Ports
+    Locations
+
+Setup controller constants
+Setup motors for shooter/intake/diverter/climber
+
+AUTOS, try and make the robot do something in AUTO
+    Climb if have time, likely not
+
+Self aiming robot using a limelight
+    talk to Pri3d of the North?
+
+
+swerve library generator
+    https://yet-another-software-suite.github.io/YAGSL/config_generator/
+
+Need to get the info for the config.
+
+
+Neo - 5700 free speed
+Neo 550 - 11000 free speed
+
+Should be able to target up to 3000 in neo shooter, need to test whats needed
+
+Determining if a limelight2 or 2+, easier logic and more accurate with 2+

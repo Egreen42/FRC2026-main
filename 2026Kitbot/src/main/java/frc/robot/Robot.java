@@ -12,7 +12,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import edu.wpi.first.cameraserver.CameraServer;
 
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
+
 
 /**
  * The methods in this class are called automatically corresponding to each mode, as described in
@@ -41,6 +41,10 @@ public class Robot extends TimedRobot {
 
 
 
+   
+
+
+
   public Robot() {
     //Begin video capture to the smart dashboard
     CameraServer.startAutomaticCapture();
@@ -62,11 +66,16 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     
     //DriveTrain, Right is reversed
-    leftDriveMotor1.set(-driverController.getLeftY());
-    leftDriveMotor2.set(-driverController.getLeftY());
+    if(driverController.getLeftY() > Constants.leftStickDeadzone || driverController.getLeftY() < -Constants.leftStickDeadzone){
+      leftDriveMotor1.set(-driverController.getLeftY());
+      leftDriveMotor2.set(-driverController.getLeftY());
+    }
 
-    rightDriveMotor1.set(driverController.getRightY());
-    rightDriveMotor2.set(driverController.getRightY());
+
+    if(driverController.getRightY() > Constants.rightStickDeadzone || driverController.getRightY() < - Constants.rightStickDeadzone){
+      rightDriveMotor1.set(driverController.getRightY());
+      rightDriveMotor2.set(driverController.getRightY());
+    }
 
     //Intake
     if(manipController.getLeftTriggerAxis() > 0.5){
@@ -83,10 +92,16 @@ public class Robot extends TimedRobot {
     }
 
     //Shooter
-    if(manipController.getRightTriggerAxis() > 0.5){
+    if(manipController.getLeftTriggerAxis() > 0.5){
       shooterMotor.set(Constants.shooterSpeed);
     } else {
       shooterMotor.set(0);
+    }
+
+    if(manipController.getRightTriggerAxis() > 0.5){
+      diverterMotor.set(Constants.diverterWhileShootSpeed);
+    } else {
+      diverterMotor.set(0);
     }
 
   }
