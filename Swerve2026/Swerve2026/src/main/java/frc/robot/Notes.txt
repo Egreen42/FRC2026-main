@@ -1,0 +1,12 @@
+Motor IDs
+
+
+Right Drive = 2,3
+Left Drive = 4,5
+Intake = 6
+Shooter = 7
+Index = 8
+
+
+
+Need to DO

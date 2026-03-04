@@ -112,7 +112,7 @@ public class shooterSubsystem extends SubsystemBase{
     //Is at speed
     public boolean isAtSpeed(){
         if(TARGET_RPM == 0.0) return false;
-        return Math.abs(shooterEncoder1.getVelocity() - TARGET_RPM) < RPM_Tolerance &&
+        return Math.abs(shooterEncoder1.getVelocity() - TARGET_RPM) < RPM_Tolerance;
         
     }
 
