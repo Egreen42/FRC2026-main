@@ -45,6 +45,11 @@ import swervelib.parser.SwerveDriveConfiguration;
 import swervelib.parser.SwerveParser;
 import swervelib.telemetry.SwerveDriveTelemetry;
 import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StructPublisher;
+
 
 public class SwerveSubsystem extends SubsystemBase
 {
@@ -52,6 +57,11 @@ public class SwerveSubsystem extends SubsystemBase
    * Swerve drive object.
    */
   private final SwerveDrive swerveDrive;
+  private final Field2d field = new Field2d();
+  private final StructPublisher<Pose2d> posePublisher =
+    NetworkTableInstance.getDefault()
+        .getStructTopic("RobotPose", Pose2d.struct)
+        .publish();
 
   /**
    * Initialize {@link SwerveDrive} with the directory provided.
@@ -72,6 +82,7 @@ public class SwerveSubsystem extends SubsystemBase
     try
     {
       swerveDrive = new SwerveParser(directory).createSwerveDrive(Constants.MAX_SPEED, startingPose);
+      SmartDashboard.putData("Field", field);
       // Alternative method if you don't want to supply the conversion factor via JSON files.
       // swerveDrive = new SwerveParser(directory).createSwerveDrive(maximumSpeed, angleConversionFactor, driveConversionFactor);
     } catch (Exception e)
@@ -108,11 +119,15 @@ public class SwerveSubsystem extends SubsystemBase
   @Override
   public void periodic()
   {
+    field.setRobotPose(swerveDrive.getPose());
+    posePublisher.set(swerveDrive.getPose());
   }
 
   @Override
   public void simulationPeriodic()
   {
+    field.setRobotPose(swerveDrive.getPose());
+    posePublisher.set(swerveDrive.getPose());
   }
 
   /**
@@ -131,11 +146,11 @@ public void setupPathPlanner()
       final boolean enableFeedforward = true;
       // Configure AutoBuilder last
       AutoBuilder.configure(
-          this::getPose,
+          swerveDrive::getPose,
           // Robot pose supplier
-          this::resetOdometry,
+          swerveDrive::resetOdometry,
           // Method to reset odometry (will be called if your auto has a starting pose)
-          this::getRobotVelocity,
+          swerveDrive::getRobotVelocity,
           // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
           (speedsRobotRelative, moduleFeedForwards) -> {
             if (enableFeedforward)
@@ -493,6 +508,7 @@ public void setupPathPlanner()
   public void postTrajectory(Trajectory trajectory)
   {
     swerveDrive.postTrajectory(trajectory);
+    field.getObject("trajectory").setTrajectory(trajectory);
   }
 
   /**
