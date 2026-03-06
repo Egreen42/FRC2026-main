@@ -41,7 +41,8 @@ public class Robot extends TimedRobot {
 
 
 
-   
+   boolean pressed = false;
+   boolean pressed1 = false;
 
 
 
@@ -80,28 +81,38 @@ public class Robot extends TimedRobot {
     //Intake
     if(manipController.getLeftTriggerAxis() > 0.5){
       intakeMotor.set(Constants.intakeSpeed);
-      diverterMotor.set(Constants.diverterSpeed);
-    }else if(manipController.getLeftBumperButtonPressed()){
+      diverterMotor.set(-0.8);
+      pressed = true;
+    }else if(manipController.getLeftBumperButton()){
       intakeMotor.set(-Constants.intakeSpeed);
-      diverterMotor.set(-Constants.diverterSpeed);
+      diverterMotor.set(0.8);
+      pressed = true;
     }
-    else {
+    else if(!manipController.getLeftBumperButton() && manipController.getLeftTriggerAxis() < 0.5 && pressed == true) {
       intakeMotor.set(0);
       diverterMotor.set(0);
+      pressed = false;
 
     }
+  
 
     //Shooter
-    if(manipController.getLeftTriggerAxis() > 0.5){
+    if(manipController.getRightBumperButton()){
       shooterMotor.set(Constants.shooterSpeed);
     } else {
       shooterMotor.set(0);
     }
 
+
+
     if(manipController.getRightTriggerAxis() > 0.5){
       diverterMotor.set(Constants.diverterWhileShootSpeed);
-    } else {
+      intakeMotor.set(Constants.intakeSpeed);
+      pressed1 = true;
+    } else if(manipController.getRightTriggerAxis() < 0.5 && pressed1 == true) {
       diverterMotor.set(0);
+      intakeMotor.set(0);
+      pressed1 = false;
     }
 
   }
