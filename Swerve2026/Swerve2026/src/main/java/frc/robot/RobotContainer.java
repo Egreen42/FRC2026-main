@@ -48,6 +48,9 @@ public class RobotContainer {
   private SendableChooser<Command> autoSelector = new SendableChooser<>();
 
   public RobotContainer() {
+
+    swerve.zeroGyro();
+
     configureBindings();
 
     /**
@@ -114,6 +117,7 @@ public class RobotContainer {
 
     //Drivebase Bindings
     swerve.setDefaultCommand(driveFieldOrientedAngularVelocity);
+    driverController.start().onTrue(new InstantCommand(() -> swerve.zeroGyro()));
 
     //Shooter Bindings
     manipController.rightBumper().whileTrue(new ShootVelocityCommand(shooter, Constants.shooterRPM));
@@ -133,5 +137,9 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     return autoSelector.getSelected();
+  }
+
+  public SwerveSubsystem getSwerve(){
+    return swerve;
   }
 }

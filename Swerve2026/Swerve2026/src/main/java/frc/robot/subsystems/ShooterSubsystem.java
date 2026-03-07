@@ -82,6 +82,7 @@ public class ShooterSubsystem extends SubsystemBase{
             new Color8Bit(Color.kOrange));
 
     public ShooterSubsystem(){
+
         shooterMotor = new SparkMax(Constants.kShooterMotorID, MotorType.kBrushless);
         
         shooterEncoder = shooterMotor.getEncoder();
@@ -153,6 +154,7 @@ public class ShooterSubsystem extends SubsystemBase{
         shooterSim.setInput(appliedVoltage);
         shooterSim.update(0.02);
     }
+
 
 }
 

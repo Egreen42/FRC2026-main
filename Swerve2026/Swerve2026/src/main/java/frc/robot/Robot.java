@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+
+
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -61,8 +64,40 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testInit() {
-    CommandScheduler.getInstance().cancelAll();
-  }
+
+      System.out.println("Starting Swerve Offset Calibration...");
+
+
+      RobotContainer robotContainer = new RobotContainer();
+      // Point modules forward
+      robotContainer.getSwerve().drive(new ChassisSpeeds(1.0, 0.0, 0.0));
+
+      try {
+          Thread.sleep(2000); // allow modules to align
+      } catch (InterruptedException e) {
+          e.printStackTrace();
+      }
+
+      // Stop modules
+      robotContainer.getSwerve().drive(new ChassisSpeeds(0.0, 0.0, 0.0));
+
+      // Print encoder angles
+      System.out.println("===== SWERVE MODULE OFFSETS =====");
+
+      System.out.println("FrontLeft:  " +
+          robotContainer.getSwerve().getSwerveDrive().getModules()[0].getAbsolutePosition());
+
+      System.out.println("FrontRight: " +
+          robotContainer.getSwerve().getSwerveDrive().getModules()[1].getAbsolutePosition());
+
+      System.out.println("BackLeft:   " +
+          robotContainer.getSwerve().getSwerveDrive().getModules()[2].getAbsolutePosition());
+
+      System.out.println("BackRight:  " +
+          robotContainer.getSwerve().getSwerveDrive().getModules()[3].getAbsolutePosition());
+
+      System.out.println("=================================");
+}
 
   @Override
   public void testPeriodic() {}
