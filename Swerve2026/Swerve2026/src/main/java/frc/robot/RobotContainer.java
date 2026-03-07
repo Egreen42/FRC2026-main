@@ -118,13 +118,11 @@ public class RobotContainer {
     //Shooter Bindings
     manipController.rightBumper().whileTrue(new ShootVelocityCommand(shooter, Constants.shooterRPM));
     manipController.rightTrigger(0.5).whileTrue(Commands.parallel(
-      new IndexOutCommand(index),
+      new IndexInCommand(index),
       new IntakeInCommand(intake))); //THIS IS THE SHOOT COMMAND
 
     //Intake/Index Bindings
-    manipController.leftTrigger(0.5).whileTrue(Commands.parallel(
-      new IntakeInCommand(intake), 
-      new IndexInCommand(index)));
+    manipController.leftTrigger(0.5).whileTrue(new IntakeInCommand(intake));
     manipController.leftBumper().whileTrue(Commands.parallel(
       new IntakeOutCommand(intake),
       new IndexOutCommand(index)));

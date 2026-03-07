@@ -16,17 +16,21 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 public class IndexSubsystem extends SubsystemBase{
     
     private SparkMax indexMotor;
+    private SparkMax rearIndexMotor;
 
     public IndexSubsystem(){
         indexMotor = new SparkMax(Constants.kIndexMotorID, MotorType.kBrushless);
+        rearIndexMotor = new SparkMax(Constants.kRearIndexMotorID, MotorType.kBrushless);
     }
 
     public void runIndexer(double speed){
         indexMotor.set(speed);
+        rearIndexMotor.set(speed);
     }
 
     public void stopIndexer(){
         indexMotor.stopMotor();
+        rearIndexMotor.stopMotor();
     }
     
 }
