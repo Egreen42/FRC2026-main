@@ -70,12 +70,18 @@ public class Robot extends TimedRobot {
     if(driverController.getLeftY() > Constants.leftStickDeadzone || driverController.getLeftY() < -Constants.leftStickDeadzone){
       leftDriveMotor1.set(-driverController.getLeftY());
       leftDriveMotor2.set(-driverController.getLeftY());
+    } else {
+      leftDriveMotor1.set(0);
+      leftDriveMotor2.set(0);
     }
 
 
     if(driverController.getRightY() > Constants.rightStickDeadzone || driverController.getRightY() < - Constants.rightStickDeadzone){
       rightDriveMotor1.set(driverController.getRightY());
       rightDriveMotor2.set(driverController.getRightY());
+    } else {
+      rightDriveMotor1.set(0);
+      rightDriveMotor2.set(0);
     }
 
     //Intake
